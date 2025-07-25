@@ -333,52 +333,57 @@ export function MainChatArea({ channel, server, user }: MainChatAreaProps) {
       )}
 
       {/* Message Input */}
-      <div className="p-4">
-        <div className="relative">
-          <Input
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder={`Message #${channel.name}`}
-            className="bg-[#40444b] border-none text-white placeholder-[#72767d] text-[16px] h-11 pl-4 pr-12 rounded-lg focus:ring-0 focus:outline-none"
-            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+      <div className="px-4 pb-6 pt-0">
+        <div className="relative flex items-center">
+          {/* Add File Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="w-11 h-11 text-[#b9bbbe] hover:text-white hover:bg-[#4f545c] rounded-full mr-4 flex-shrink-0"
+            onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
-          />
+          >
+            <Plus className="w-6 h-6" />
+          </Button>
           
-          {/* Input Actions */}
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="w-6 h-6 text-[#b9bbbe] hover:text-white p-0"
-              onClick={() => fileInputRef.current?.click()}
+          {/* Message Input */}
+          <div className="flex-1 relative">
+            <Input
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder={`Message #${channel.name}`}
+              className="bg-[#40444b] border-none text-white placeholder-[#72767d] text-[16px] h-11 pl-4 pr-12 rounded-lg focus:ring-0 focus:outline-none w-full"
+              onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
               disabled={uploading}
-            >
-              <Plus className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="w-6 h-6 text-[#b9bbbe] hover:text-white p-0"
-              disabled={uploading}
-            >
-              <Gift className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="w-6 h-6 text-[#b9bbbe] hover:text-white p-0"
-              disabled={uploading}
-            >
-              <Sticker className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="w-6 h-6 text-[#b9bbbe] hover:text-white p-0"
-              disabled={uploading}
-            >
-              <Smile className="w-5 h-5" />
-            </Button>
+            />
+            
+            {/* Right Side Actions */}
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-6 h-6 text-[#b9bbbe] hover:text-white p-0"
+                disabled={uploading}
+              >
+                <Gift className="w-5 h-5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-6 h-6 text-[#b9bbbe] hover:text-white p-0"
+                disabled={uploading}
+              >
+                <Sticker className="w-5 h-5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-6 h-6 text-[#b9bbbe] hover:text-white p-0"
+                disabled={uploading}
+              >
+                <Smile className="w-5 h-5" />
+              </Button>
+            </div>
           </div>
         </div>
         

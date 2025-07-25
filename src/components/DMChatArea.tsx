@@ -233,48 +233,45 @@ export function DMChatArea({ friendId, friendName }: DMChatAreaProps) {
       </ScrollArea>
 
       {/* Message Input */}
-      <div className="p-4 bg-[#36393f]">
-        <div className="flex items-center space-x-3 bg-[#40444b] rounded-lg px-4 py-3">
+      <div className="px-4 pb-6 pt-0 bg-[#36393f]">
+        <div className="relative flex items-center">
+          {/* Add File Button */}
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
+            className="w-11 h-11 text-[#b9bbbe] hover:text-white hover:bg-[#4f545c] rounded-full mr-4 flex-shrink-0"
             onClick={() => fileInputRef.current?.click()}
-            className="h-6 w-6 p-0 text-[#b9bbbe] hover:text-white"
           >
-            <Paperclip className="h-4 w-4" />
+            <Paperclip className="w-6 h-6" />
           </Button>
           
-          <Input
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder={`Message ${friendName}`}
-            className="flex-1 bg-transparent border-none text-white placeholder:text-[#72767d] focus-visible:ring-0 focus-visible:ring-offset-0"
-          />
-          
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 w-6 p-0 text-[#b9bbbe] hover:text-white"
-            >
-              <Gift className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 w-6 p-0 text-[#b9bbbe] hover:text-white"
-            >
-              <Smile className="h-4 w-4" />
-            </Button>
-            <Button
-              onClick={sendMessage}
-              disabled={!newMessage.trim()}
-              size="sm"
-              className="h-6 w-6 p-0 bg-[#5865f2] hover:bg-[#4752c4] disabled:opacity-50"
-            >
-              <Send className="h-4 w-4" />
-            </Button>
+          {/* Message Input */}
+          <div className="flex-1 relative">
+            <Input
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder={`Message ${friendName}`}
+              className="bg-[#40444b] border-none text-white placeholder-[#72767d] text-[16px] h-11 pl-4 pr-12 rounded-lg focus:ring-0 focus:outline-none w-full"
+            />
+            
+            {/* Right Side Actions */}
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-6 h-6 text-[#b9bbbe] hover:text-white p-0"
+              >
+                <Gift className="w-5 h-5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-6 h-6 text-[#b9bbbe] hover:text-white p-0"
+              >
+                <Smile className="w-5 h-5" />
+              </Button>
+            </div>
           </div>
         </div>
         

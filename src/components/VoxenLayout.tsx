@@ -22,6 +22,8 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
   const [isDMsSelected, setIsDMsSelected] = useState(false)
   const [selectedDM, setSelectedDM] = useState<string>('')
   const [selectedDMName, setSelectedDMName] = useState<string>('')
+  // Store server-specific channel selections
+  const [serverChannels, setServerChannels] = useState<{[serverId: string]: any}>({})
 
   // Load and apply user theme on startup
   const loadAndApplyTheme = useCallback(async () => {
@@ -148,13 +150,17 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
       })
       setChannels(channelList)
       
-      if (channelList.length > 0 && !selectedChannel) {
+      // Check if we have a previously selected channel for this server
+      const previousChannel = serverChannels[serverId]
+      if (previousChannel && channelList.find(c => c.id === previousChannel.id)) {
+        setSelectedChannel(previousChannel)
+      } else if (channelList.length > 0) {
         setSelectedChannel(channelList[0])
       }
     } catch (error) {
       console.error('Error loading channels:', error)
     }
-  }, [selectedChannel])
+  }, [serverChannels])
 
   useEffect(() => {
     loadAndApplyTheme()
@@ -182,8 +188,27 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
     setIsDMsSelected(false)
     setSelectedDM('')
     setSelectedDMName('')
+    
+    // Save current channel selection for the current server
+    if (selectedServer && selectedChannel) {
+      setServerChannels(prev => ({
+        ...prev,
+        [selectedServer.id]: selectedChannel
+      }))
+    }
+    
     setSelectedServer(server)
-    // Don't clear selectedChannel here - let it load from the server
+  }
+
+  const handleSelectChannel = (channel: any) => {
+    setSelectedChannel(channel)
+    // Update the server channels mapping
+    if (selectedServer) {
+      setServerChannels(prev => ({
+        ...prev,
+        [selectedServer.id]: channel
+      }))
+    }
   }
 
   const handleSelectDM = (friendId: string, friendName: string) => {
@@ -215,7 +240,7 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
           server={selectedServer}
           channels={channels}
           selectedChannel={selectedChannel}
-          onSelectChannel={setSelectedChannel}
+          onSelectChannel={handleSelectChannel}
           onChannelsUpdate={() => selectedServer && loadChannels(selectedServer.id)}
         />
       )}
