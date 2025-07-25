@@ -6,6 +6,7 @@ import { Label } from './ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { blink } from '../blink/client'
 import { useToast } from '../hooks/use-toast'
+import { VoxenLogo } from './VoxenLogo'
 
 interface ThemeCustomizerProps {
   open: boolean
@@ -282,6 +283,17 @@ export function ThemeCustomizer({ open, onOpenChange, user }: ThemeCustomizerPro
                 style={{ backgroundColor: backgroundColor }}
               >
                 <div className="space-y-3">
+                  {/* Voxen Logo Preview */}
+                  <div className="flex items-center space-x-3">
+                    <div 
+                      className="w-12 h-12 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: primaryColor }}
+                    >
+                      <VoxenLogo size={28} color="white" />
+                    </div>
+                    <div className="text-white font-semibold">Voxen Logo</div>
+                  </div>
+                  
                   <div 
                     className="px-4 py-2 rounded-md text-white font-medium"
                     style={{ backgroundColor: primaryColor }}

@@ -5,6 +5,8 @@ import { MainChatArea } from './MainChatArea'
 import { MemberList } from './MemberList'
 import { VoiceControls } from './VoiceControls'
 import { UserPanel } from './UserPanel'
+import { DMsSidebar } from './DMsSidebar'
+import { DMChatArea } from './DMChatArea'
 import { blink } from '../blink/client'
 
 interface VoxenLayoutProps {
@@ -17,6 +19,9 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
   const [servers, setServers] = useState<any[]>([])
   const [channels, setChannels] = useState<any[]>([])
   const [userProfile, setUserProfile] = useState<any>(null)
+  const [isDMsSelected, setIsDMsSelected] = useState(false)
+  const [selectedDM, setSelectedDM] = useState<string>('')
+  const [selectedDMName, setSelectedDMName] = useState<string>('')
 
   const createDefaultServer = useCallback(async () => {
     try {
@@ -142,41 +147,77 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
     }
   }, [selectedServer, loadChannels])
 
+  const handleSelectDMs = () => {
+    setIsDMsSelected(true)
+    setSelectedServer(null)
+    setSelectedChannel(null)
+  }
+
+  const handleSelectServer = (server: any) => {
+    setIsDMsSelected(false)
+    setSelectedDM('')
+    setSelectedDMName('')
+    setSelectedServer(server)
+  }
+
+  const handleSelectDM = (friendId: string, friendName: string) => {
+    setSelectedDM(friendId)
+    setSelectedDMName(friendName)
+  }
+
   return (
     <div className="h-screen flex bg-[#36393f] text-[#dcddde] relative">
       {/* Server Sidebar */}
       <ServerSidebar 
         servers={servers}
         selectedServer={selectedServer}
-        onSelectServer={setSelectedServer}
+        onSelectServer={handleSelectServer}
         user={user}
         onServersUpdate={loadServers}
+        onSelectDMs={handleSelectDMs}
+        isDMsSelected={isDMsSelected}
       />
       
-      {/* Channel Sidebar */}
-      <ChannelSidebar 
-        server={selectedServer}
-        channels={channels}
-        selectedChannel={selectedChannel}
-        onSelectChannel={setSelectedChannel}
-        onChannelsUpdate={() => selectedServer && loadChannels(selectedServer.id)}
-      />
+      {/* Channel/DMs Sidebar */}
+      {isDMsSelected ? (
+        <DMsSidebar 
+          onSelectDM={handleSelectDM}
+          selectedDM={selectedDM}
+        />
+      ) : (
+        <ChannelSidebar 
+          server={selectedServer}
+          channels={channels}
+          selectedChannel={selectedChannel}
+          onSelectChannel={setSelectedChannel}
+          onChannelsUpdate={() => selectedServer && loadChannels(selectedServer.id)}
+        />
+      )}
       
       {/* Main Content Area */}
       <div className="flex-1 flex">
         <div className="flex-1 flex flex-col">
-          <MainChatArea 
-            channel={selectedChannel}
+          {isDMsSelected && selectedDM ? (
+            <DMChatArea 
+              friendId={selectedDM}
+              friendName={selectedDMName}
+            />
+          ) : (
+            <MainChatArea 
+              channel={selectedChannel}
+              server={selectedServer}
+              user={user}
+            />
+          )}
+        </div>
+        
+        {/* Member List - Only show for servers, not DMs */}
+        {!isDMsSelected && (
+          <MemberList 
             server={selectedServer}
             user={user}
           />
-        </div>
-        
-        {/* Member List */}
-        <MemberList 
-          server={selectedServer}
-          user={user}
-        />
+        )}
       </div>
       
       {/* Voice Controls - Fixed at bottom */}
