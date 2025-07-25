@@ -37,6 +37,11 @@
     --discord-green: 139 47% 47%; /* #3ba55c */
     --discord-red: 359 82% 59%; /* #ed4245 */
     --discord-yellow: 38 95% 54%; /* #faa61a */
+    
+    /* Custom theme colors (can be overridden by JavaScript) */
+    --theme-primary: #6366F1;
+    --theme-accent: #8B5CF6;
+    --theme-background: #0F0F23;
   }
 }
 

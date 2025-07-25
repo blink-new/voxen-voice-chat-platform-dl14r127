@@ -6,7 +6,10 @@ interface VoxenLogoProps {
   color?: string
 }
 
-export function VoxenLogo({ size = 24, className = '', color = 'currentColor' }: VoxenLogoProps) {
+export function VoxenLogo({ size = 24, className = '', color }: VoxenLogoProps) {
+  // Use theme color if no color is specified
+  const logoColor = color || 'var(--theme-primary)'
+  
   return (
     <svg
       width={size}
@@ -18,8 +21,8 @@ export function VoxenLogo({ size = 24, className = '', color = 'currentColor' }:
     >
       <path
         d="M3 3L12 21L21 3H17L12 13L7 3H3Z"
-        fill={color}
-        stroke={color}
+        fill={logoColor}
+        stroke={logoColor}
         strokeWidth="1"
         strokeLinejoin="round"
       />
@@ -27,7 +30,7 @@ export function VoxenLogo({ size = 24, className = '', color = 'currentColor' }:
         cx="12"
         cy="8"
         r="2"
-        fill={color}
+        fill={logoColor}
         opacity="0.8"
       />
     </svg>

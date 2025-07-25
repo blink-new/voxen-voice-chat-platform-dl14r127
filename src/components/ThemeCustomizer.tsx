@@ -98,12 +98,22 @@ export function ThemeCustomizer({ open, onOpenChange, user }: ThemeCustomizerPro
     setPrimaryColor(preset.primary)
     setAccentColor(preset.accent)
     setBackgroundColor(preset.background)
+    
+    // Apply immediately for preview
+    document.documentElement.style.setProperty('--theme-primary', preset.primary)
+    document.documentElement.style.setProperty('--theme-accent', preset.accent)
+    document.documentElement.style.setProperty('--theme-background', preset.background)
   }
 
   const resetToDefault = () => {
     setPrimaryColor('#6366F1')
     setAccentColor('#8B5CF6')
     setBackgroundColor('#0F0F23')
+    
+    // Apply immediately for preview
+    document.documentElement.style.setProperty('--theme-primary', '#6366F1')
+    document.documentElement.style.setProperty('--theme-accent', '#8B5CF6')
+    document.documentElement.style.setProperty('--theme-background', '#0F0F23')
   }
 
   const saveTheme = async () => {
@@ -136,9 +146,9 @@ export function ThemeCustomizer({ open, onOpenChange, user }: ThemeCustomizerPro
       }
 
       // Apply theme to CSS variables
-      document.documentElement.style.setProperty('--primary', primaryColor)
-      document.documentElement.style.setProperty('--accent', accentColor)
-      document.documentElement.style.setProperty('--background', backgroundColor)
+      document.documentElement.style.setProperty('--theme-primary', primaryColor)
+      document.documentElement.style.setProperty('--theme-accent', accentColor)
+      document.documentElement.style.setProperty('--theme-background', backgroundColor)
 
       toast({
         title: 'Theme saved!',
@@ -216,14 +226,22 @@ export function ThemeCustomizer({ open, onOpenChange, user }: ThemeCustomizerPro
                 <input
                   type="color"
                   value={primaryColor}
-                  onChange={(e) => setPrimaryColor(e.target.value)}
+                  onChange={(e) => {
+                    setPrimaryColor(e.target.value)
+                    document.documentElement.style.setProperty('--theme-primary', e.target.value)
+                  }}
                   className="w-12 h-12 rounded-lg border border-gray-600 bg-transparent cursor-pointer"
                 />
                 <div className="flex-1">
                   <input
                     type="text"
                     value={primaryColor}
-                    onChange={(e) => setPrimaryColor(e.target.value)}
+                    onChange={(e) => {
+                      setPrimaryColor(e.target.value)
+                      if (e.target.value.match(/^#[0-9A-F]{6}$/i)) {
+                        document.documentElement.style.setProperty('--theme-primary', e.target.value)
+                      }
+                    }}
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white"
                     placeholder="#6366F1"
                   />
@@ -238,14 +256,22 @@ export function ThemeCustomizer({ open, onOpenChange, user }: ThemeCustomizerPro
                 <input
                   type="color"
                   value={accentColor}
-                  onChange={(e) => setAccentColor(e.target.value)}
+                  onChange={(e) => {
+                    setAccentColor(e.target.value)
+                    document.documentElement.style.setProperty('--theme-accent', e.target.value)
+                  }}
                   className="w-12 h-12 rounded-lg border border-gray-600 bg-transparent cursor-pointer"
                 />
                 <div className="flex-1">
                   <input
                     type="text"
                     value={accentColor}
-                    onChange={(e) => setAccentColor(e.target.value)}
+                    onChange={(e) => {
+                      setAccentColor(e.target.value)
+                      if (e.target.value.match(/^#[0-9A-F]{6}$/i)) {
+                        document.documentElement.style.setProperty('--theme-accent', e.target.value)
+                      }
+                    }}
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white"
                     placeholder="#8B5CF6"
                   />
@@ -260,14 +286,22 @@ export function ThemeCustomizer({ open, onOpenChange, user }: ThemeCustomizerPro
                 <input
                   type="color"
                   value={backgroundColor}
-                  onChange={(e) => setBackgroundColor(e.target.value)}
+                  onChange={(e) => {
+                    setBackgroundColor(e.target.value)
+                    document.documentElement.style.setProperty('--theme-background', e.target.value)
+                  }}
                   className="w-12 h-12 rounded-lg border border-gray-600 bg-transparent cursor-pointer"
                 />
                 <div className="flex-1">
                   <input
                     type="text"
                     value={backgroundColor}
-                    onChange={(e) => setBackgroundColor(e.target.value)}
+                    onChange={(e) => {
+                      setBackgroundColor(e.target.value)
+                      if (e.target.value.match(/^#[0-9A-F]{6}$/i)) {
+                        document.documentElement.style.setProperty('--theme-background', e.target.value)
+                      }
+                    }}
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white"
                     placeholder="#0F0F23"
                   />

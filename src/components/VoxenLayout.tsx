@@ -23,6 +23,26 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
   const [selectedDM, setSelectedDM] = useState<string>('')
   const [selectedDMName, setSelectedDMName] = useState<string>('')
 
+  // Load and apply user theme on startup
+  const loadAndApplyTheme = useCallback(async () => {
+    try {
+      const profiles = await blink.db.userProfiles.list({
+        where: { userId: user.id },
+        limit: 1
+      })
+      
+      if (profiles.length > 0 && profiles[0].themeColors) {
+        const theme = JSON.parse(profiles[0].themeColors)
+        // Apply theme to CSS variables
+        document.documentElement.style.setProperty('--theme-primary', theme.primary || '#6366F1')
+        document.documentElement.style.setProperty('--theme-accent', theme.accent || '#8B5CF6')
+        document.documentElement.style.setProperty('--theme-background', theme.background || '#0F0F23')
+      }
+    } catch (error) {
+      console.error('Error loading theme:', error)
+    }
+  }, [user.id])
+
   const createDefaultServer = useCallback(async () => {
     try {
       const serverId = `server_${Date.now()}`
@@ -137,9 +157,10 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
   }, [selectedChannel])
 
   useEffect(() => {
+    loadAndApplyTheme()
     loadUserProfile()
     loadServers()
-  }, [loadUserProfile, loadServers])
+  }, [loadAndApplyTheme, loadUserProfile, loadServers])
 
   useEffect(() => {
     if (selectedServer) {
@@ -148,16 +169,21 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
   }, [selectedServer, loadChannels])
 
   const handleSelectDMs = () => {
+    console.log('Switching to DMs')
     setIsDMsSelected(true)
     setSelectedServer(null)
     setSelectedChannel(null)
+    setSelectedDM('')
+    setSelectedDMName('')
   }
 
   const handleSelectServer = (server: any) => {
+    console.log('Switching to server:', server.name)
     setIsDMsSelected(false)
     setSelectedDM('')
     setSelectedDMName('')
     setSelectedServer(server)
+    // Don't clear selectedChannel here - let it load from the server
   }
 
   const handleSelectDM = (friendId: string, friendName: string) => {
