@@ -14,12 +14,12 @@ export function VoiceControls({ user }: VoiceControlsProps) {
   const [volume, setVolume] = useState([100])
 
   return (
-    <div className="h-16 bg-gray-900 border-t border-gray-700 flex items-center justify-between px-4">
+    <div className="h-[52px] bg-[#232428] border-t border-[#1e1f22] flex items-center justify-between px-2">
       {/* Voice Status */}
-      <div className="flex items-center space-x-2">
-        <div className="flex items-center space-x-1 text-sm text-gray-300">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <span>Connected to voice</span>
+      <div className="flex items-center space-x-2 flex-1">
+        <div className="flex items-center space-x-2 text-sm text-[#b5bac1]">
+          <div className="w-2 h-2 bg-[#23a559] rounded-full animate-pulse" />
+          <span className="text-[13px]">Voice Connected</span>
         </div>
       </div>
 
@@ -29,28 +29,28 @@ export function VoiceControls({ user }: VoiceControlsProps) {
         <Button
           variant="ghost"
           size="icon"
-          className={`w-10 h-10 rounded-full ${
+          className={`w-8 h-8 rounded-md transition-colors duration-150 ${
             isMuted 
-              ? 'bg-red-500 hover:bg-red-600 text-white' 
-              : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
+              ? 'bg-[#f23f42] hover:bg-[#d73c3f] text-white' 
+              : 'bg-[#4e5058] hover:bg-[#6d6f78] text-[#b5bac1]'
           }`}
           onClick={() => setIsMuted(!isMuted)}
         >
-          {isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+          {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
         </Button>
 
         {/* Headphones */}
         <Button
           variant="ghost"
           size="icon"
-          className={`w-10 h-10 rounded-full ${
+          className={`w-8 h-8 rounded-md transition-colors duration-150 ${
             isDeafened 
-              ? 'bg-red-500 hover:bg-red-600 text-white' 
-              : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
+              ? 'bg-[#f23f42] hover:bg-[#d73c3f] text-white' 
+              : 'bg-[#4e5058] hover:bg-[#6d6f78] text-[#b5bac1]'
           }`}
           onClick={() => setIsDeafened(!isDeafened)}
         >
-          {isDeafened ? <HeadphonesIcon className="w-5 h-5" /> : <Headphones className="w-5 h-5" />}
+          {isDeafened ? <HeadphonesIcon className="w-4 h-4" /> : <Headphones className="w-4 h-4" />}
         </Button>
 
         {/* Voice Settings */}
@@ -59,48 +59,59 @@ export function VoiceControls({ user }: VoiceControlsProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 text-gray-300"
+              className="w-8 h-8 rounded-md bg-[#4e5058] hover:bg-[#6d6f78] text-[#b5bac1] transition-colors duration-150"
             >
-              <Settings className="w-5 h-5" />
+              <Settings className="w-4 h-4" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-80 bg-gray-800 border-gray-700">
+          <PopoverContent className="w-80 bg-[#2b2d31] border-[#1e1f22] shadow-xl" side="top">
             <div className="space-y-4">
-              <h4 className="font-semibold text-white">Voice Settings</h4>
+              <h4 className="font-semibold text-[#f2f3f5] text-[16px]">Voice Settings</h4>
               
-              <div className="space-y-2">
-                <label className="text-sm text-gray-300">Input Volume</label>
-                <Slider
-                  value={volume}
-                  onValueChange={setVolume}
-                  max={100}
-                  step={1}
-                  className="w-full"
-                />
-                <div className="flex justify-between text-xs text-gray-400">
-                  <span>0%</span>
-                  <span>{volume[0]}%</span>
-                  <span>100%</span>
+              <div className="space-y-3">
+                <div>
+                  <label className="text-[12px] font-semibold text-[#b5bac1] uppercase tracking-wide">Input Volume</label>
+                  <div className="mt-2">
+                    <Slider
+                      value={volume}
+                      onValueChange={setVolume}
+                      max={100}
+                      step={1}
+                      className="w-full"
+                    />
+                    <div className="flex justify-between text-[11px] text-[#87898c] mt-1">
+                      <span>0%</span>
+                      <span>{volume[0]}%</span>
+                      <span>100%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[12px] font-semibold text-[#b5bac1] uppercase tracking-wide">Output Volume</label>
+                  <div className="mt-2">
+                    <Slider
+                      value={[80]}
+                      max={100}
+                      step={1}
+                      className="w-full"
+                    />
+                    <div className="flex justify-between text-[11px] text-[#87898c] mt-1">
+                      <span>0%</span>
+                      <span>80%</span>
+                      <span>100%</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm text-gray-300">Output Volume</label>
-                <Slider
-                  value={[80]}
-                  max={100}
-                  step={1}
-                  className="w-full"
-                />
-              </div>
-
-              <div className="pt-2 border-t border-gray-700">
+              <div className="pt-3 border-t border-[#3f4147]">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600"
+                  className="w-full bg-[#4e5058] border-[#6d6f78] text-[#f2f3f5] hover:bg-[#6d6f78] text-[14px] h-8"
                 >
-                  Advanced Settings
+                  Open Voice Settings
                 </Button>
               </div>
             </div>
@@ -111,27 +122,27 @@ export function VoiceControls({ user }: VoiceControlsProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="w-10 h-10 rounded-full bg-gray-700 hover:bg-red-600 text-gray-300 hover:text-white"
+          className="w-8 h-8 rounded-md bg-[#4e5058] hover:bg-[#f23f42] text-[#b5bac1] hover:text-white transition-colors duration-150"
         >
-          <PhoneOff className="w-5 h-5" />
+          <PhoneOff className="w-4 h-4" />
         </Button>
       </div>
 
       {/* Voice Quality Indicator */}
-      <div className="flex items-center space-x-2">
-        <div className="flex items-center space-x-1">
-          <div className="flex space-x-0.5">
+      <div className="flex items-center space-x-2 flex-1 justify-end">
+        <div className="flex items-center space-x-2">
+          <div className="flex space-x-0.5 items-end">
             {[1, 2, 3, 4, 5].map((bar) => (
               <div
                 key={bar}
-                className={`w-1 rounded-full ${
-                  bar <= 4 ? 'bg-green-500' : 'bg-gray-600'
+                className={`w-1 rounded-full transition-colors duration-150 ${
+                  bar <= 4 ? 'bg-[#23a559]' : 'bg-[#4e5058]'
                 }`}
-                style={{ height: `${bar * 3 + 6}px` }}
+                style={{ height: `${bar * 2 + 4}px` }}
               />
             ))}
           </div>
-          <span className="text-xs text-gray-400">Good</span>
+          <span className="text-[11px] text-[#87898c] font-medium">Good</span>
         </div>
       </div>
     </div>

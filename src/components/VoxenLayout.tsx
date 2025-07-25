@@ -143,7 +143,7 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
   }, [selectedServer, loadChannels])
 
   return (
-    <div className="h-screen flex bg-background text-foreground">
+    <div className="h-screen flex bg-[#36393f] text-[#dcddde] relative">
       {/* Server Sidebar */}
       <ServerSidebar 
         servers={servers}
@@ -163,24 +163,28 @@ export function VoxenLayout({ user }: VoxenLayoutProps) {
       />
       
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
-        <MainChatArea 
-          channel={selectedChannel}
+      <div className="flex-1 flex">
+        <div className="flex-1 flex flex-col">
+          <MainChatArea 
+            channel={selectedChannel}
+            server={selectedServer}
+            user={user}
+          />
+        </div>
+        
+        {/* Member List */}
+        <MemberList 
           server={selectedServer}
           user={user}
         />
-        
-        {/* Voice Controls */}
+      </div>
+      
+      {/* Voice Controls - Fixed at bottom */}
+      <div className="absolute bottom-0 left-[332px] right-0">
         <VoiceControls user={user} />
       </div>
       
-      {/* Member List */}
-      <MemberList 
-        server={selectedServer}
-        user={user}
-      />
-      
-      {/* User Panel */}
+      {/* User Panel - Fixed at bottom left */}
       <UserPanel 
         user={user}
         userProfile={userProfile}

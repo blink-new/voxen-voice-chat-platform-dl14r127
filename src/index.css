@@ -4,39 +4,39 @@
 
 @layer base {
   :root {
-    --background: 240 23% 9%;
-    --foreground: 210 40% 98%;
-    --card: 240 23% 9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 240 23% 9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 239 84% 67%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 262 83% 58%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 239 84% 67%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --radius: 0.5rem;
-    --sidebar-background: 240 23% 9%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 239 84% 67%;
-    --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 217.2 32.6% 17.5%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217.2 32.6% 17.5%;
-    --sidebar-ring: 239 84% 67%;
+    /* Discord-like color scheme */
+    --background: 220 13% 18%; /* #2f3136 */
+    --foreground: 210 11% 71%; /* #b9bbbe */
+    --card: 223 7% 20%; /* #36393f */
+    --card-foreground: 210 11% 71%;
+    --popover: 223 7% 20%;
+    --popover-foreground: 210 11% 71%;
+    --primary: 235 86% 65%; /* #5865f2 Discord Blurple */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 228 6% 32%; /* #4f545c */
+    --secondary-foreground: 210 11% 71%;
+    --muted: 228 6% 32%;
+    --muted-foreground: 215 9% 54%; /* #72767d */
+    --accent: 139 47% 47%; /* #3ba55c Discord Green */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 359 82% 59%; /* #ed4245 Discord Red */
+    --destructive-foreground: 0 0% 100%;
+    --border: 228 6% 32%;
+    --input: 228 6% 32%;
+    --ring: 235 86% 65%;
+    --radius: 0.375rem;
+    
+    /* Discord specific colors */
+    --discord-dark: 227 8% 15%; /* #202225 */
+    --discord-darker: 225 7% 14%; /* #1e2124 */
+    --discord-darkest: 210 10% 9%; /* #18191c */
+    --discord-gray: 228 6% 32%; /* #4f545c */
+    --discord-light-gray: 215 9% 54%; /* #72767d */
+    --discord-white: 210 11% 71%; /* #b9bbbe */
+    --discord-blurple: 235 86% 65%; /* #5865f2 */
+    --discord-green: 139 47% 47%; /* #3ba55c */
+    --discord-red: 359 82% 59%; /* #ed4245 */
+    --discord-yellow: 38 95% 54%; /* #faa61a */
   }
 }
 
@@ -47,23 +47,121 @@
 
   body {
     @apply bg-background text-foreground;
+
+    font-family: Whitney, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 }
 
-/* Custom scrollbar for dark theme */
+/* Discord-like scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
-::-webkit-scrollbar-track {
-  background: #374151;
+::-webkit-scrollbar-corner {
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #6B7280;
-  border-radius: 4px;
+  background-color: hsl(var(--discord-darker));
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
+  background-color: hsl(var(--discord-dark));
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Discord-like animations */
+.discord-hover {
+  transition: all 0.15s ease-out;
+}
+
+.discord-hover:hover {
+  background-color: hsl(var(--discord-gray) / 30%);
+}
+
+/* Server icon animations */
+.server-icon {
+  transition: all 0.2s ease-out;
+  border-radius: 50%;
+}
+
+.server-icon:hover {
+  border-radius: 16px;
+}
+
+.server-icon.active {
+  border-radius: 16px;
+}
+
+/* Channel hover effects */
+.channel-item {
+  transition: all 0.15s ease-out;
+  border-radius: 4px;
+}
+
+.channel-item:hover {
+  background-color: hsl(var(--discord-gray) / 30%);
+}
+
+.channel-item.active {
+  background-color: hsl(var(--discord-gray) / 60%);
+}
+
+/* Message hover effects */
+.message-item {
+  transition: background-color 0.15s ease-out;
+}
+
+.message-item:hover {
+  background-color: hsl(var(--discord-dark) / 30%);
+}
+
+/* Discord-like focus styles */
+.discord-focus:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(var(--discord-blurple));
+}
+
+/* Custom Discord-like components */
+.discord-pill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  background-color: hsl(var(--discord-white));
+  border-radius: 0 4px 4px 0;
+  transition: all 0.2s ease-out;
+}
+
+.discord-pill.active {
+  height: 40px;
+}
+
+.discord-pill.hover {
+  height: 20px;
+}
+
+/* Discord-like status indicators */
+.status-online {
+  background-color: hsl(var(--discord-green));
+}
+
+.status-idle {
+  background-color: hsl(var(--discord-yellow));
+}
+
+.status-dnd {
+  background-color: hsl(var(--discord-red));
+}
+
+.status-offline {
+  background-color: hsl(var(--discord-light-gray));
 }

@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Hash, Volume2, Plus, ChevronDown, Settings } from 'lucide-react'
+import { Hash, Volume2, Plus, ChevronDown, Settings, UserPlus, Bell, Pin, Users, Inbox } from 'lucide-react'
 import { Button } from './ui/button'
 import { ScrollArea } from './ui/scroll-area'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
+import { Separator } from './ui/separator'
 
 interface ChannelSidebarProps {
   server: any
@@ -24,8 +25,8 @@ export function ChannelSidebar({
 
   if (!server) {
     return (
-      <div className="w-60 bg-gray-800 flex items-center justify-center">
-        <p className="text-gray-400">Select a server</p>
+      <div className="w-60 bg-[#2f3136] flex items-center justify-center">
+        <p className="text-[#72767d]">Select a server</p>
       </div>
     )
   }
@@ -34,27 +35,25 @@ export function ChannelSidebar({
   const voiceChannels = channels.filter(c => c.type === 'voice')
 
   return (
-    <div className="w-60 bg-gray-800 flex flex-col">
+    <div className="w-60 bg-[#2f3136] flex flex-col">
       {/* Server Header */}
-      <div className="h-12 px-4 flex items-center justify-between border-b border-gray-700 shadow-sm">
-        <h2 className="font-semibold text-white truncate">{server.name}</h2>
-        <Button variant="ghost" size="icon" className="w-6 h-6">
-          <ChevronDown className="w-4 h-4" />
-        </Button>
+      <div className="h-12 px-4 flex items-center justify-between border-b border-[#202225] shadow-md hover:bg-[#36393f] transition-colors duration-150 cursor-pointer">
+        <h2 className="font-semibold text-white truncate text-[15px]">{server.name}</h2>
+        <ChevronDown className="w-4 h-4 text-[#b9bbbe]" />
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="p-2 space-y-1">
+        <div className="p-2 space-y-0.5">
           {/* Text Channels */}
           <Collapsible open={textChannelsOpen} onOpenChange={setTextChannelsOpen}>
             <CollapsibleTrigger asChild>
               <Button 
                 variant="ghost" 
-                className="w-full justify-start px-2 py-1 h-8 text-xs font-semibold text-gray-400 hover:text-gray-300"
+                className="w-full justify-start px-2 py-1.5 h-7 text-xs font-semibold text-[#8e9297] hover:text-[#dcddde] hover:bg-transparent group"
               >
-                <ChevronDown className={`w-3 h-3 mr-1 transition-transform ${textChannelsOpen ? '' : '-rotate-90'}`} />
+                <ChevronDown className={`w-3 h-3 mr-1 transition-transform duration-150 ${textChannelsOpen ? '' : '-rotate-90'}`} />
                 TEXT CHANNELS
-                <Plus className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100" />
+                <Plus className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-0.5">
@@ -62,13 +61,17 @@ export function ChannelSidebar({
                 <Button
                   key={channel.id}
                   variant="ghost"
-                  className={`w-full justify-start px-2 py-1 h-8 text-gray-300 hover:text-white hover:bg-gray-700 ${
-                    selectedChannel?.id === channel.id ? 'bg-gray-700 text-white' : ''
+                  className={`w-full justify-start px-2 py-1.5 h-8 text-[#8e9297] hover:text-[#dcddde] hover:bg-[#393c43] rounded channel-item group ${
+                    selectedChannel?.id === channel.id ? 'bg-[#393c43] text-white active' : ''
                   }`}
                   onClick={() => onSelectChannel(channel)}
                 >
-                  <Hash className="w-4 h-4 mr-2" />
-                  {channel.name}
+                  <Hash className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <span className="truncate text-[15px]">{channel.name}</span>
+                  <div className="ml-auto flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    <UserPlus className="w-4 h-4" />
+                    <Settings className="w-4 h-4" />
+                  </div>
                 </Button>
               ))}
             </CollapsibleContent>
@@ -79,11 +82,11 @@ export function ChannelSidebar({
             <CollapsibleTrigger asChild>
               <Button 
                 variant="ghost" 
-                className="w-full justify-start px-2 py-1 h-8 text-xs font-semibold text-gray-400 hover:text-gray-300"
+                className="w-full justify-start px-2 py-1.5 h-7 text-xs font-semibold text-[#8e9297] hover:text-[#dcddde] hover:bg-transparent group mt-4"
               >
-                <ChevronDown className={`w-3 h-3 mr-1 transition-transform ${voiceChannelsOpen ? '' : '-rotate-90'}`} />
+                <ChevronDown className={`w-3 h-3 mr-1 transition-transform duration-150 ${voiceChannelsOpen ? '' : '-rotate-90'}`} />
                 VOICE CHANNELS
-                <Plus className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100" />
+                <Plus className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-0.5">
@@ -91,13 +94,17 @@ export function ChannelSidebar({
                 <Button
                   key={channel.id}
                   variant="ghost"
-                  className={`w-full justify-start px-2 py-1 h-8 text-gray-300 hover:text-white hover:bg-gray-700 ${
-                    selectedChannel?.id === channel.id ? 'bg-gray-700 text-white' : ''
+                  className={`w-full justify-start px-2 py-1.5 h-8 text-[#8e9297] hover:text-[#dcddde] hover:bg-[#393c43] rounded channel-item group ${
+                    selectedChannel?.id === channel.id ? 'bg-[#393c43] text-white active' : ''
                   }`}
                   onClick={() => onSelectChannel(channel)}
                 >
-                  <Volume2 className="w-4 h-4 mr-2" />
-                  {channel.name}
+                  <Volume2 className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <span className="truncate text-[15px]">{channel.name}</span>
+                  <div className="ml-auto flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    <UserPlus className="w-4 h-4" />
+                    <Settings className="w-4 h-4" />
+                  </div>
                 </Button>
               ))}
             </CollapsibleContent>
